@@ -5,37 +5,39 @@ class Register extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            email: "",
-            password: "",
-            name: ""
+            registerEmail: "",
+            registerPassword: "",
+            registerName: ""
         }
     }
 
     onNameChange = (event) => {
-        this.setState({name: event.target.value})
+        this.setState({registerName: event.target.value})
     }
     onEmailChange = (event) => {
-        this.setState({email : event.target.value})
+        this.setState({registerEmail : event.target.value})
     }
 
     onPasswordChange = (event) => {
-        this.setState({password : event.target.value})
+        this.setState({registerPassword : event.target.value})
     }
 
-    onSubmitSignIn = () => {
+    onSubmitRegister = () => {
         fetch("http://localhost:3001/register", {
             method: "post",
             headers:  {"Content-Type": "application/json"},
             body:JSON.stringify({
-                email: this.state.signInEmail,
-                password: this.state.signInPassword,
-                name: this.state.name
+                email: this.state.registerEmail,
+                password: this.state.registerPassword,
+                name: this.state.registerName
             })
         }).then(response => response.json())
             .then(user => {
-                this.props.loadUser(user);
-                if (user)
+                if (user.id){
+                    this.props.loadUser(user);
                     this.props.onRouteChange("home");
+                }
+
             });
     }
 
@@ -71,7 +73,7 @@ class Register extends React.Component {
                                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                                 type="submit"
                                 value="Register"
-                                onClick={this.onSubmitSignIn}
+                                onClick={this.onSubmitRegister}
                             />
                         </div>
                     </div>
